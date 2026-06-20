@@ -1,27 +1,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>EcoTrack AI</title>
-  <link rel="stylesheet" href="style.css">
+<title>EcoTrack AI</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
 
-  <h1>🌍 EcoTrack AI</h1>
+<header class="hero">
 
-  <p>Enter your daily lifestyle details:</p>
+<h1>🌍 EcoTrack AI</h1>
 
-  <input id="car" placeholder="Car km per day">
-  <input id="electricity" placeholder="Electricity units per month">
-  <input id="flights" placeholder="Flights per month">
-  <input id="food" placeholder="Food type (veg/non-veg)">
+<p>
+Track your Carbon Footprint and Build a Greener Future
+</p>
 
-  <button onclick="calculate()">Calculate Carbon Footprint</button>
+</header>
 
-  <h2>Result:</h2>
-  <p id="output"></p>
+<div class="container">
 
-</body>
+<h2>Carbon Footprint Calculator</h2>
+
+<input id="car" type="number" placeholder="Car Travel (km/month)">
+
+<input id="electricity" type="number" placeholder="Electricity Usage (units/month)">
+
+<input id="flights" type="number" placeholder="Flights per Month">
+
+<input id="food" placeholder="Veg or Non-Veg">
+
+<button onclick="calculate()">
+Calculate Carbon Footprint
+</button>
+
+<button onclick="resetForm()">
+Reset
+</button>
+
+<div id="output"></div>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Eco Score</h3>
+<div class="circle-score">
+<span id="ecoScore">0</span>
+</div>
+</div>
+
+<div class="card">
+<h3>Monthly CO₂</h3>
+<div id="monthlyCO2">0</div>
+</div>
+
+<div class="card">
+<h3>Annual Forecast</h3>
+<div id="annualCO2">0</div>
+</div>
+
+<div class="card">
+<h3>Climate Impact</h3>
+<div id="impact">-</div>
+</div>
+
+</div>
+
+<h2>Emission Breakdown</h2>
+
+<div class="chart-container">
+
+<canvas id="carbonChart"></canvas>
+
+</div>
+
+<h2>Your Footprint vs Target</h2>
+
+<div class="meter">
+
+<div id="meterBar"></div>
+
+</div>
+
+<div id="recommendation"></div>
+
+<div class="education">
+
+<h2>📚 What is Carbon Footprint?</h2>
+
+<p>
+A carbon footprint is the total greenhouse gases produced by daily activities such as transportation, electricity use, flights, and food consumption.
+</p>
+
+<h2>🌱 How to Reduce It?</h2>
+
+<ul>
+
+<li>Use public transport</li>
+
+<li>Reduce electricity wastage</li>
+
+<li>Choose sustainable food options</li>
+
+<li>Plant trees</li>
+
+<li>Avoid unnecessary flights</li>
+
+</ul>
+
+</div>
+
+</div>
 
 <script src="app.js"></script>
+
+</body>
 </html>
