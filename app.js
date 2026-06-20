@@ -1,61 +1,145 @@
+let chart;
+
 function calculate() {
 
-  let car = Number(document.getElementById("car").value);
-  let electricity = Number(document.getElementById("electricity").value);
-  let flights = Number(document.getElementById("flights").value);
-  let food = document.getElementById("food").value.toLowerCase();
+let car = Number(document.getElementById("car").value);
 
-  let carbon =
-    (car * 0.21) +
-    (electricity * 0.82) +
-    (flights * 90);
+let electricity = Number(document.getElementById("electricity").value);
 
-  if(food === "non-veg"){
-    carbon += 50;
-  } else {
-    carbon += 20;
-  }
+let flights = Number(document.getElementById("flights").value);
 
-  let level = "";
-  let suggestions = "";
+let food = document.getElementById("food").value.toLowerCase();
 
-  if (carbon < 100) {
-    level = "🌱 Low Carbon Footprint";
-    suggestions =
-      "Great job! Continue using eco-friendly habits.";
-  }
+if(
+document.getElementById("car").value==="" ||
+document.getElementById("electricity").value==="" ||
+document.getElementById("flights").value==="" ||
+food===""){
+alert("Please fill all fields");
+return;
+}
 
-  else if (carbon < 300) {
-    level = "⚠️ Medium Carbon Footprint";
-    suggestions =
-      "Try using public transport, save electricity and reduce unnecessary travel.";
-  }
+let transport = car*0.21;
 
-  else {
-    level = "🔥 High Carbon Footprint";
-    suggestions =
-      "Reduce flights, use renewable energy and adopt sustainable transport options.";
-  }
+let energy = electricity*0.82;
 
-  document.getElementById("output").innerHTML =
-    "<b>Estimated Carbon Footprint:</b> " +
-    carbon.toFixed(2) +
-    " kg CO₂/month <br><br>" +
+let flightEmission = flights*90;
 
-    "<b>Category:</b> " +
-    level +
-    "<br><br>" +
+let foodEmission = food==="non-veg"?50:20;
 
-    "<b>AI Recommendation:</b><br>" +
-    suggestions +
-    "<br><br>" +
+let carbon =
+transport+
+energy+
+flightEmission+
+foodEmission;
 
-    "<b>7-Day Eco Challenge:</b><br>" +
-    "Day 1: Switch off unused lights<br>" +
-    "Day 2: Walk or cycle for short trips<br>" +
-    "Day 3: Save water<br>" +
-    "Day 4: Avoid plastic bags<br>" +
-    "Day 5: Eat one eco-friendly meal<br>" +
-    "Day 6: Use public transport<br>" +
-    "Day 7: Plant a tree";
+let category;
+
+let recommendation;
+
+if(carbon<100){
+category="Low";
+recommendation="Excellent! Continue your sustainable lifestyle.";
+}
+else if(carbon<300){
+category="Medium";
+recommendation="Reduce electricity use and travel emissions.";
+}
+else{
+category="High";
+recommendation="Significantly reduce flights and fuel consumption.";
+}
+
+document.getElementById("output").innerHTML=
+`
+<h3>${carbon.toFixed(2)} kg CO₂ / month</h3>
+<p>${recommendation}</p>
+`;
+
+let ecoScore=Math.max(0,100-Math.floor(carbon/5));
+
+document.getElementById("ecoScore").innerHTML=ecoScore;
+
+document.getElementById("monthlyCO2").innerHTML=
+carbon.toFixed(0);
+
+document.getElementById("annualCO2").innerHTML=
+(carbon*12/1000).toFixed(2)+" tons";
+
+document.getElementById("impact").innerHTML=
+category;
+
+let meter=Math.min((carbon/500)*100,100);
+
+document.getElementById("meterBar").style.width=
+meter+"%";
+
+createChart(
+transport,
+energy,
+foodEmission,
+flightEmission
+);
+}
+
+function createChart(
+transport,
+energy,
+food,
+flights
+){
+
+const ctx=
+document.getElementById("carbonChart");
+
+if(chart){
+chart.destroy();
+}
+
+chart=new Chart(ctx,{
+type:'doughnut',
+data:{
+labels:[
+'Transport',
+'Home Energy',
+'Food',
+'Flights'
+],
+datasets:[{
+data:[
+transport,
+energy,
+food,
+flights
+]
+}]
+}
+});
+}
+
+function resetForm(){
+
+document.getElementById("car").value="";
+
+document.getElementById("electricity").value="";
+
+document.getElementById("flights").value="";
+
+document.getElementById("food").value="";
+
+document.getElementById("output").innerHTML="";
+
+document.getElementById("ecoScore").innerHTML="0";
+
+document.getElementById("monthlyCO2").innerHTML="0";
+
+document.getElementById("annualCO2").innerHTML="0";
+
+document.getElementById("impact").innerHTML="-";
+
+document.getElementById("meterBar").style.width="0%";
+
+if(chart){
+chart.destroy();
+}
 }
